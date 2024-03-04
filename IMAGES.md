@@ -12,6 +12,10 @@ To remove one, execute `docker image rm image1`
 
 To inspect one, execute `docker inspect image1`
 
+To tag an image, execute `docker tag <image-id> <username>/<repository>:<tag>`
+
+To push from a registry, execute `docker push <username>/<repository>:<tag>`
+
 ### Tips for Efficiency
 1. Minimize changes in the Dockerfile
 
