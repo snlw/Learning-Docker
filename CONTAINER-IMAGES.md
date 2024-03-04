@@ -12,12 +12,40 @@ To remove one, execute `docker image rm image1`
 
 To inspect one, execute `docker inspect image1`
 
-### Tips for Efficient Layer Caching
+### Tips for Efficiency
 1. Minimize changes in the Dockerfile
 
 2. Build context optimization using a `.dockerignore` file
 
 3. Use smaller base images
+    - Choose a lightweight base image that includes only the necessary components
 
 4. Combine instructions to reduce layers 
+    - Use `&&` to combine commands
+    - Remove temporary/unused files in the same layer
+
+5. Use multi-stage builds 
+    ``` 
+    FROM node:14-alpine AS build
+    WORKDIR /app
+    COPY package*.json ./
+    RUN npm install
+    COPY . .
+    RUN npm run build
+
+    FROM node:14-alpine
+    WORKDIR /app
+    COPY --from=build /app/dist ./dist
+    COPY package*.json ./
+    RUN npm install --production
+    CMD ["npm", "start"]
+    ```
+### Tips for Safety
+1. Keep base images up-to-date
+
+2. Avoid running containers as root
+
+3. Limit the scope of `COPY` and `ADD`
+
+4. Scan images for vulnerabilities
 
